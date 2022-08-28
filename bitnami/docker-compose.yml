@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  zookeeper:
+    image: bitnami/zookeeper:3.8.0-debian-11-r30
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: 'yes'
+
+  kafka:
+    image: bitnami/kafka:3.2.1-debian-11-r8
+    depends_on:
+      - zookeeper
+    environment:
+      ALLOW_PLAINTEXT_LISTENER: 'yes'
+      KAFKA_CFG_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+
+networks:
+  app-tier:
+    driver: bridge
